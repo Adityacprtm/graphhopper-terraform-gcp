@@ -1,0 +1,71 @@
+{
+  "variables": {
+    "time": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "<project_id>",
+      "machine_type": "e2-standard-4",
+      "disk_size": "25",
+      "source_image_family": "ubuntu-2004-lts",
+      "tags": [
+        "<network-tags>"
+      ],
+      "region": "asia-southeast2",
+      "zone": "asia-southeast2-a",
+      "image_name": "graphhopper-v3-{{user `time`}}",
+      "image_description": "Graphhopper graph cache, ready to used for faster starts",
+      "image_family": "graphhopper",
+      "ssh_username": "ubuntu",
+      "account_file": "<service-account.json>",
+      "image_labels": {
+        "name": "graphhopper",
+        "map": "indonesia"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "config/nginx.conf",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "file",
+      "source": "config/config.yml",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "file",
+      "source": "config/options.js",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "file",
+      "source": "config/tileLayers.js",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "sudo apt update",
+        "sudo apt install -y git nginx zip unzip default-jre default-jdk maven",
+        "sudo timedatectl set-timezone Asia/Jakarta",
+        "cd /home/ubuntu",
+        "wget https://github.com/graphhopper/graphhopper/archive/refs/tags/3.0.zip",
+        "unzip 3.0.zip",
+        "mv config.yml nginx.conf /home/ubuntu/graphhopper-3.0/",
+        "mv -f options.js /home/ubuntu/graphhopper-3.0/web-bundle/src/main/resources/com/graphhopper/maps/js/config/options.js",
+        "mv -f tileLayers.js /home/ubuntu/graphhopper-3.0/web-bundle/src/main/resources/com/graphhopper/maps/js/config/tileLayers.js",
+        "cd /home/ubuntu/graphhopper-3.0",
+        "export JAVA_HOME=$(readlink -f /usr/bin/java | sed \"s:bin/java::\")",
+        "export JAVA_OPTS=\"-Xms10g -Xmx12g\"",
+        "./graphhopper.sh -a import -i asia_indonesia.pbf -c config.yml -fd",
+        "sudo mv nginx.conf /etc/nginx/sites-available/default",
+        "sudo service nginx restart"
+      ]
+    }
+  ]
+}
