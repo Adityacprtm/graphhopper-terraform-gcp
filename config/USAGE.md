@@ -1,0 +1,3 @@
+- config.yml                  : graphhopper config file
+- nginx.conf                  : nginx for expose and serve the app
+- options.js & tileLayers.js  : maps config
