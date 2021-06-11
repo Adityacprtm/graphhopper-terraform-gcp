@@ -4,6 +4,8 @@ What is [Graphhopper](https://www.graphhopper.com/)?
 
 Here will deploy an open source project from Graphhopper, namely the `GraphHopper Routing Engine`, check the [repo](https://github.com/graphhopper/graphhopper).
 
+Instance specification: 4 VPCs and 16 GB Memory
+
 ## Tools
 
 - Graphhopper 3.0
