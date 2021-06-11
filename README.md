@@ -17,7 +17,7 @@ Instance specification: 4 VPCs and 16 GB Memory
 
 ## Usage
 
-## Setup Service Account
+### Setup Service Account
 
 Create Service Account on GCP with At least `Compute Instance Admin (v1) & Service Account User roles.`
 
