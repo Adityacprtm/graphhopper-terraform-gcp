@@ -4,7 +4,10 @@ What is [Graphhopper](https://www.graphhopper.com/)?
 
 Here will deploy an open source project from Graphhopper, namely the `GraphHopper Routing Engine`, check the [repo](https://github.com/graphhopper/graphhopper).
 
-Instance specification: 4 VPCs and 16 GB Memory
+Instance specification:
+
+- 4 VPCs and 16 GB Memory
+- asia-southeast2
 
 ## Tools
 
@@ -16,6 +19,8 @@ Instance specification: 4 VPCs and 16 GB Memory
   - Compute Engine
 
 ## Usage
+
+Replace `<service-account.json>` and `<project_id>` with your own. Provide tags for `<network-tags>`, for example to open `ssh` or `http` ports.
 
 ### Setup Service Account
 
